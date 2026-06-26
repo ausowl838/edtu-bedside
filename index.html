@@ -14,9 +14,6 @@
     --accent-lt: #2389cc;
     --text:      #e8edf5;
     --muted:     #7a8fa8;
-    --warn:      #b45309;
-    --danger:    #991b1b;
-    --pill-r:    6px;
     --font-ui:   'Segoe UI', system-ui, sans-serif;
     --font-data: 'Courier New', monospace;
   }
@@ -24,12 +21,7 @@
   body { font-family: var(--font-ui); background: var(--bg); color: var(--text); min-height: 100vh; }
 
   /* HEADER */
-  .app-header {
-    background: var(--panel);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 24px;
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  }
+  .app-header { background: var(--panel); border-bottom: 1px solid var(--border); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .logo { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; letter-spacing: .03em; }
   .logo span { color: var(--accent-lt); }
   .nuh-badge { font-size: 11px; font-weight: 600; background: var(--accent); color: #fff; padding: 3px 8px; border-radius: 4px; letter-spacing: .06em; }
@@ -73,9 +65,7 @@
   .form-row label { font-size: 11px; font-weight: 600; color: var(--muted); display: block; margin-bottom: 4px; }
   .form-row input, .form-row textarea, .form-row select { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font-ui); font-size: 14px; padding: 8px 11px; border-radius: 6px; transition: border-color .15s; }
   .form-row input:focus, .form-row textarea:focus, .form-row select:focus { outline: none; border-color: var(--accent-lt); }
-  .form-row textarea { resize: vertical; min-height: 64px; line-height: 1.5; }
   .form-row select option { background: #1a2535; }
-  .col-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
   .col-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
   /* ALERT TOGGLES */
@@ -115,17 +105,44 @@
   @keyframes pulse-live { 0% { box-shadow: 0 0 0 0 rgba(34,197,94,.4); } 70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); } 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); } }
   .live-label { font-size: 11px; color: #22c55e; font-weight: 700; }
 
-  /* PATIENT CARD */
+  /* PATIENT CARD — bedside */
   .patient-card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-  .card-header { background: linear-gradient(135deg, #0c1e33 0%, #0e2844 100%); border-bottom: 1px solid var(--border); padding: 20px 24px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
-  .card-bed-num { font-size: 11px; font-weight: 700; letter-spacing: .1em; color: var(--accent-lt); text-transform: uppercase; margin-bottom: 4px; }
-  .card-patient-name { font-size: 34px; font-weight: 800; line-height: 1.1; letter-spacing: -.01em; }
-  .card-sub { font-size: 14px; color: var(--muted); margin-top: 5px; font-family: var(--font-data); }
-  .card-timestamp { font-size: 11px; color: var(--muted); text-align: right; line-height: 2; }
-  .card-timestamp strong { display: block; font-size: 22px; font-family: var(--font-data); color: var(--text); letter-spacing: .02em; }
-  .alerts-row { display: flex; flex-wrap: wrap; gap: 10px; padding: 16px 24px; border-bottom: 1px solid var(--border); }
-  .alert-badge { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 8px; font-size: 14px; font-weight: 700; letter-spacing: .02em; border: 2px solid; animation: badge-in .2s ease; }
+
+  .card-header {
+    background: linear-gradient(135deg, #0c1e33 0%, #0e2844 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 32px;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  }
+  .card-bed-num {
+    font-size: 15px; font-weight: 700; letter-spacing: .1em;
+    color: var(--accent-lt); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .card-salutation {
+    font-size: 22px; font-weight: 600; color: var(--muted); margin-bottom: 2px;
+  }
+  .card-patient-name {
+    font-size: 52px; font-weight: 800; line-height: 1.05; letter-spacing: -.01em;
+  }
+
+  /* Date block — top right */
+  .card-date-block {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .card-date-block .date-str {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: .01em;
+    line-height: 1.3;
+  }
+
+  /* ALERT BADGES */
+  .alerts-row { display: flex; flex-wrap: wrap; gap: 12px; padding: 20px 32px; border-bottom: 1px solid var(--border); }
+  .alert-badge { display: flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 10px; font-size: 18px; font-weight: 800; letter-spacing: .02em; border: 2px solid; animation: badge-in .2s ease; }
   @keyframes badge-in { from { transform: scale(.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .alert-badge .ab-icon { font-size: 22px; }
   .alert-badge.nil-mouth    { background: #fff7ed; color: #9a3412; border-color: #f97316; }
   .alert-badge.fall-risk    { background: #fefce8; color: #854d0e; border-color: #eab308; }
   .alert-badge.contact-prec { background: #f0fdf4; color: #166534; border-color: #22c55e; }
@@ -133,14 +150,17 @@
   .alert-badge.allergy      { background: #fdf4ff; color: #7e22ce; border-color: #a855f7; }
   .alert-badge.dnr          { background: #fff1f2; color: #9f1239; border-color: #f43f5e; }
   .alert-badge.isolation    { background: #f0fdfa; color: #0f766e; border-color: #14b8a6; }
-  .card-body { padding: 18px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .info-block { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 13px 15px; }
+
+  /* CARD BODY */
+  .card-body { padding: 22px 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .info-block { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
   .info-block.full-width { grid-column: 1 / -1; }
-  .ib-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
-  .ib-value { font-size: 16px; font-weight: 600; line-height: 1.4; }
-  .no-patient { padding: 60px 24px; text-align: center; color: var(--muted); }
-  .no-patient .icon { font-size: 46px; opacity: .25; margin-bottom: 12px; }
-  .no-patient p { font-size: 15px; }
+  .ib-label { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
+  .ib-value { font-size: 24px; font-weight: 700; line-height: 1.3; }
+
+  .no-patient { padding: 80px 24px; text-align: center; color: var(--muted); }
+  .no-patient .icon { font-size: 52px; opacity: .25; margin-bottom: 14px; }
+  .no-patient p { font-size: 18px; }
 
   /* GRID VIEW */
   .grid-view-container { padding: 20px; }
@@ -167,9 +187,8 @@
     .admin-layout { grid-template-columns: 1fr; }
     .admin-sidebar { height: 200px; }
     .card-body { grid-template-columns: 1fr; }
-    .card-patient-name { font-size: 24px; }
+    .card-patient-name { font-size: 32px; }
     .alert-grid { grid-template-columns: 1fr; }
-    .col-grid-3, .col-grid-2 { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -229,7 +248,6 @@
 </div>
 
 <script>
-// ── CREDENTIALS (pre-configured) ──────────────────────────────────
 const SUPA_URL = 'https://rhkvarnydxlwaiuznvrz.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJoa3Zhcm55ZHhsd2FpdXpudnJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0MTcxNDEsImV4cCI6MjA5Nzk5MzE0MX0.5yQvalFR7ALsVOuTS3jxUo6AU2xxuk2M6pu15Hd4I24';
 const BED_COUNT = 16;
@@ -248,7 +266,6 @@ let patients = {};
 let selectedBed = null;
 let sb = null;
 
-// ── INIT BEDS ─────────────────────────────────────────────────────
 function initPatients() {
   for (let i = 1; i <= BED_COUNT; i++) {
     const k = 'BED ' + String(i).padStart(2,'0');
@@ -257,8 +274,7 @@ function initPatients() {
 }
 
 function blankPatient(bed) {
-  return { bed_number:bed, full_name:'', nric_last4:'', age:'', gender:'',
-    doctor:'', ward_class:'', remarks:'',
+  return { bed_number:bed, full_name:'', gender:'', doctor:'',
     alert_nbm:false, alert_fall:false, alert_dnr:false,
     alert_allergy:false, alert_o2:false, alert_isolation:false,
     alert_contact:false, updated_at:null };
@@ -281,7 +297,6 @@ async function loadFromSupabase() {
   if (!sb) return;
   const { data, error } = await sb.from('patients').select('*');
   if (error) { console.warn('Load error:', error); return; }
-  // Merge — keep skeleton rows for beds not yet in DB
   (data||[]).forEach(r => { patients[r.bed_number] = r; });
   renderBedList();
   populateBedsideSelect();
@@ -344,7 +359,7 @@ function selectBed(k) {
   renderEditForm(patients[k]);
 }
 
-// ── EDIT FORM ─────────────────────────────────────────────────────
+// ── EDIT FORM (PSA Admin — simplified) ───────────────────────────
 function renderEditForm(p) {
   document.getElementById('editPanel').innerHTML = `
     <h2>Patient Record <span class="bed-tag">${p.bed_number}</span></h2>
@@ -353,46 +368,26 @@ function renderEditForm(p) {
       <h4>Patient Information</h4>
       <div class="form-row">
         <label>Full Name (as per IC)</label>
-        <input id="f_name" type="text" value="${esc(p.full_name)}" placeholder="e.g. TAN AH KOW" style="text-transform:uppercase;font-weight:600;" oninput="this.value=this.value.toUpperCase()" />
+        <input id="f_name" type="text" value="${esc(p.full_name)}" placeholder="e.g. TAN AH KOW"
+          style="text-transform:uppercase;font-weight:600;font-size:16px;"
+          oninput="this.value=this.value.toUpperCase()" />
       </div>
-      <div class="col-grid-3">
-        <div class="form-row">
-          <label>NRIC Last 4</label>
-          <input id="f_nric" type="text" maxlength="4" value="${esc(p.nric_last4)}" placeholder="e.g. 123A" />
-        </div>
-        <div class="form-row">
-          <label>Age</label>
-          <input id="f_age" type="text" value="${esc(p.age)}" placeholder="e.g. 67" />
-        </div>
-        <div class="form-row">
-          <label>Gender</label>
-          <select id="f_gender">
-            <option value="">—</option>
-            <option value="Male"   ${p.gender==='Male'?'selected':''}>Male</option>
-            <option value="Female" ${p.gender==='Female'?'selected':''}>Female</option>
-          </select>
-        </div>
+      <div class="form-row">
+        <label>Gender</label>
+        <select id="f_gender">
+          <option value="">— Select —</option>
+          <option value="Male"   ${p.gender==='Male'?'selected':''}>Male</option>
+          <option value="Female" ${p.gender==='Female'?'selected':''}>Female</option>
+        </select>
       </div>
     </div>
 
     <div class="form-section">
       <h4>Clinical Assignment</h4>
-      <div class="col-grid-2">
-        <div class="form-row">
-          <label>Attending Doctor</label>
-          <input id="f_doctor" type="text" value="${esc(p.doctor)}" placeholder="e.g. LIM BOON KENG" oninput="this.value=this.value.toUpperCase()" />
-        </div>
-        <div class="form-row">
-          <label>Zone / Class</label>
-          <select id="f_class">
-            <option value="">—</option>
-            ${['Resus','P1','P2','P3','Observation','EDTU Bed'].map(c=>`<option value="${c}" ${p.ward_class===c?'selected':''}>${c}</option>`).join('')}
-          </select>
-        </div>
-      </div>
       <div class="form-row">
-        <label>Remarks / Notes</label>
-        <textarea id="f_remarks" placeholder="e.g. Awaiting CT result. Family notified. NPO from 0600h.">${esc(p.remarks)}</textarea>
+        <label>Attending Doctor</label>
+        <input id="f_doctor" type="text" value="${esc(p.doctor)}" placeholder="e.g. LIM BOON KENG"
+          oninput="this.value=this.value.toUpperCase()" />
       </div>
     </div>
 
@@ -400,7 +395,8 @@ function renderEditForm(p) {
       <h4>Alerts &amp; Precautions</h4>
       <div class="alert-grid">
         ${ALERT_DEFS.map(a=>`
-          <div class="alert-toggle ${p[a.key]?'on':''}${p[a.key]&&a.danger?' danger-alert':''}" id="tog_${a.key}" onclick="togAlert('${a.key}',${a.danger})">
+          <div class="alert-toggle ${p[a.key]?'on':''}${p[a.key]&&a.danger?' danger-alert':''}"
+               id="tog_${a.key}" onclick="togAlert('${a.key}',${a.danger})">
             <span class="alert-icon">${a.icon}</span>
             <span class="alert-label">${a.label}</span>
             <div class="toggle-pip"></div>
@@ -426,12 +422,8 @@ async function saveBed() {
   const updated = {
     ...patients[selectedBed],
     full_name:  document.getElementById('f_name').value.toUpperCase().trim(),
-    nric_last4: document.getElementById('f_nric').value.toUpperCase().trim(),
-    age:        document.getElementById('f_age').value.trim(),
     gender:     document.getElementById('f_gender').value,
     doctor:     document.getElementById('f_doctor').value.toUpperCase().trim(),
-    ward_class: document.getElementById('f_class').value,
-    remarks:    document.getElementById('f_remarks').value.trim(),
     updated_at: new Date().toISOString(),
   };
   ALERT_DEFS.forEach(a => { updated[a.key] = document.getElementById('tog_'+a.key).classList.contains('on'); });
@@ -463,6 +455,13 @@ function showSS(cls, msg) {
   setTimeout(()=>{ el.className='save-status'; }, 3000);
 }
 
+// ── SALUTATION HELPER ─────────────────────────────────────────────
+function getSalutation(gender) {
+  if (gender === 'Male')   return 'MR.';
+  if (gender === 'Female') return 'MS/MDM';
+  return '';
+}
+
 // ── BEDSIDE DISPLAY ───────────────────────────────────────────────
 function populateBedsideSelect() {
   const sel = document.getElementById('bedsideSelect');
@@ -474,38 +473,41 @@ function renderBedside() {
   const k = document.getElementById('bedsideSelect').value;
   if (!k) return;
   const p = patients[k] || blankPatient(k);
+
   const now = new Date();
-  const timeStr = now.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
-  const dateStr = now.toLocaleDateString('en-SG',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
-  document.getElementById('bedsideTime').textContent = 'Updated '+timeStr;
+  const dateStr = now.toLocaleDateString('en-SG', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+  document.getElementById('bedsideTime').textContent = 'Updated ' + now.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
 
   const card = document.getElementById('bedsideCard');
   if (!p.full_name) {
     card.innerHTML = `<div class="patient-card"><div class="no-patient"><div class="icon">🛏</div><p>${k} — No patient currently assigned</p></div></div>`;
     return;
   }
+
   const activeAlerts = ALERT_DEFS.filter(a=>p[a.key]);
+  const salutation = getSalutation(p.gender);
+
   card.innerHTML = `
     <div class="patient-card">
       <div class="card-header">
         <div>
-          <div class="card-bed-num">📍 ${p.bed_number}${p.ward_class?' — '+p.ward_class:''}</div>
+          <div class="card-bed-num">📍 ${p.bed_number}</div>
+          ${salutation ? `<div class="card-salutation">${salutation}</div>` : ''}
           <div class="card-patient-name">${esc(p.full_name)}</div>
-          <div class="card-sub">${p.nric_last4?'NRIC ···'+p.nric_last4:''}${p.age?' &nbsp;·&nbsp; Age '+p.age:''}${p.gender?' &nbsp;·&nbsp; '+p.gender:''}</div>
         </div>
-        <div class="card-timestamp"><strong>${timeStr}</strong>${dateStr}</div>
+        <div class="card-date-block">
+          <div class="date-str">${dateStr}</div>
+        </div>
       </div>
-      ${activeAlerts.length?`<div class="alerts-row">${activeAlerts.map(a=>`<div class="alert-badge ${a.cls}">${a.icon} ${a.label}</div>`).join('')}</div>`:''}
+      ${activeAlerts.length ? `
+        <div class="alerts-row">
+          ${activeAlerts.map(a=>`<div class="alert-badge ${a.cls}"><span class="ab-icon">${a.icon}</span>${a.label}</div>`).join('')}
+        </div>` : ''}
       <div class="card-body">
-        <div class="info-block">
+        <div class="info-block full-width">
           <div class="ib-label">Attending Doctor</div>
           <div class="ib-value">Dr ${esc(p.doctor)||'—'}</div>
         </div>
-        <div class="info-block">
-          <div class="ib-label">Zone / Class</div>
-          <div class="ib-value">${esc(p.ward_class)||'—'}</div>
-        </div>
-        ${p.remarks?`<div class="info-block full-width"><div class="ib-label">Remarks / Notes</div><div class="ib-value" style="font-size:14px;font-weight:400;line-height:1.6;">${esc(p.remarks)}</div></div>`:''}
       </div>
     </div>`;
 }
@@ -542,7 +544,6 @@ populateBedsideSelect();
 renderBedList();
 initSupabase();
 
-// Clock tick on bedside
 setInterval(()=>{
   if(document.getElementById('viewBedside').classList.contains('active')) renderBedside();
 }, 30000);

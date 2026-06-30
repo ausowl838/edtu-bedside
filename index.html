@@ -148,8 +148,9 @@
   .alert-badge.contact-prec { background: #f0fdf4; color: #166534; border-color: #22c55e; }
   .alert-badge.oxygen       { background: #eff6ff; color: #1e40af; border-color: #3b82f6; }
   .alert-badge.allergy      { background: #fdf4ff; color: #7e22ce; border-color: #a855f7; }
-  .alert-badge.dnr          { background: #fff1f2; color: #9f1239; border-color: #f43f5e; }
-  .alert-badge.isolation    { background: #f0fdfa; color: #0f766e; border-color: #14b8a6; }
+  .alert-badge.ccm          { background: #fff1f2; color: #9f1239; border-color: #f43f5e; }
+  .alert-badge.strict-io    { background: #f0f9ff; color: #075985; border-color: #0ea5e9; }
+  .alert-badge.diet-nd      { background: #faf5ff; color: #6b21a8; border-color: #c084fc; }
 
   /* CARD BODY */
   .card-body { padding: 22px 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -255,11 +256,12 @@ const BED_COUNT = 16;
 const ALERT_DEFS = [
   { key:'alert_nbm',       label:'Nil by Mouth',        icon:'🚫', cls:'nil-mouth',    danger:true  },
   { key:'alert_fall',      label:'Fall Risk',           icon:'⚠️', cls:'fall-risk',    danger:true  },
-  { key:'alert_dnr',       label:'DNR / DNAR',          icon:'🔴', cls:'dnr',          danger:true  },
   { key:'alert_allergy',   label:'Known Allergy',       icon:'💊', cls:'allergy',      danger:true  },
   { key:'alert_o2',        label:'O₂ Dependent',        icon:'💨', cls:'oxygen',       danger:false },
-  { key:'alert_isolation', label:'Isolation',           icon:'🔒', cls:'isolation',    danger:false },
   { key:'alert_contact',   label:'Contact Precautions', icon:'🧤', cls:'contact-prec', danger:false },
+  { key:'alert_ccm',       label:'CCM',                 icon:'🏥', cls:'ccm',          danger:true  },
+  { key:'alert_strict_io', label:'Strict I/O',          icon:'📊', cls:'strict-io',    danger:false },
+  { key:'alert_diet_nd',   label:'Diet (Non-Dairy)',    icon:'🥛', cls:'diet-nd',      danger:false },
 ];
 
 let patients = {};
@@ -274,10 +276,11 @@ function initPatients() {
 }
 
 function blankPatient(bed) {
-  return { bed_number:bed, full_name:'', gender:'', doctor:'',
-    alert_nbm:false, alert_fall:false, alert_dnr:false,
-    alert_allergy:false, alert_o2:false, alert_isolation:false,
-    alert_contact:false, updated_at:null };
+  return { bed_number:bed, full_name:'', gender:'', doctor:'', apn:'',
+    alert_nbm:false, alert_fall:false, alert_allergy:false,
+    alert_o2:false, alert_contact:false,
+    alert_ccm:false, alert_strict_io:false, alert_diet_nd:false,
+    updated_at:null };
 }
 
 // ── SUPABASE ──────────────────────────────────────────────────────
@@ -384,10 +387,17 @@ function renderEditForm(p) {
 
     <div class="form-section">
       <h4>Clinical Assignment</h4>
-      <div class="form-row">
-        <label>Attending Doctor</label>
-        <input id="f_doctor" type="text" value="${esc(p.doctor)}" placeholder="e.g. LIM BOON KENG"
-          oninput="this.value=this.value.toUpperCase()" />
+      <div class="col-grid-2">
+        <div class="form-row">
+          <label>Attending Doctor</label>
+          <input id="f_doctor" type="text" value="${esc(p.doctor)}" placeholder="e.g. LIM BOON KENG"
+            oninput="this.value=this.value.toUpperCase()" />
+        </div>
+        <div class="form-row">
+          <label>Attending APN</label>
+          <input id="f_apn" type="text" value="${esc(p.apn||'')}" placeholder="e.g. TAN HUILING"
+            oninput="this.value=this.value.toUpperCase()" />
+        </div>
       </div>
     </div>
 
@@ -424,6 +434,7 @@ async function saveBed() {
     full_name:  document.getElementById('f_name').value.toUpperCase().trim(),
     gender:     document.getElementById('f_gender').value,
     doctor:     document.getElementById('f_doctor').value.toUpperCase().trim(),
+    apn:        document.getElementById('f_apn').value.toUpperCase().trim(),
     updated_at: new Date().toISOString(),
   };
   ALERT_DEFS.forEach(a => { updated[a.key] = document.getElementById('tog_'+a.key).classList.contains('on'); });
@@ -504,9 +515,13 @@ function renderBedside() {
           ${activeAlerts.map(a=>`<div class="alert-badge ${a.cls}"><span class="ab-icon">${a.icon}</span>${a.label}</div>`).join('')}
         </div>` : ''}
       <div class="card-body">
-        <div class="info-block full-width">
+        <div class="info-block">
           <div class="ib-label">Attending Doctor</div>
           <div class="ib-value">Dr ${esc(p.doctor)||'—'}</div>
+        </div>
+        <div class="info-block">
+          <div class="ib-label">Attending APN</div>
+          <div class="ib-value">${esc(p.apn)||'—'}</div>
         </div>
       </div>
     </div>`;

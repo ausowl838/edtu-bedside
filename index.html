@@ -200,7 +200,7 @@
   <div style="display:flex;align-items:center;gap:10px;">
     <span id="connBar" class="conn-bar connecting"><span class="spinner"></span> Connecting…</span>
     <div class="view-toggle">
-      <button id="btnAdmin"   onclick="setView('admin')"   class="active">📋 PSA Admin</button>
+      <button id="btnAdmin"   onclick="setView('admin')"   class="active">📋 Admin</button>
       <button id="btnBedside" onclick="setView('bedside')">🖥 Bedside</button>
       <button id="btnGrid"    onclick="setView('grid')">🗂 All Beds</button>
     </div>
@@ -544,6 +544,7 @@ function renderGrid() {
       </div>
       <div class="gbc-name">${p.full_name||'<span style="color:var(--muted);font-style:italic;font-weight:400;">Unoccupied</span>'}</div>
       <div class="gbc-doctor">${p.doctor?'Dr '+p.doctor:''}</div>
+      <div class="gbc-doctor">${p.apn?'APN '+p.apn:''}</div>
       ${alerts.length?`<div class="gbc-alerts">${alerts.map(a=>`<span class="mini-badge alert-badge ${a.cls}">${a.label}</span>`).join('')}</div>`:''}`;
     div.onclick = ()=>{ setView('admin'); selectBed(p.bed_number); };
     grid.appendChild(div);
